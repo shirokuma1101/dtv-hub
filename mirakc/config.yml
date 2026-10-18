@@ -1,0 +1,8 @@
+# Base configuration. scripts/configure.py imports the actual upstream channels
+# and creates config.generated.yml with two GR and two shared BS/CS tuners.
+epg:
+  cache-dir: /var/lib/mirakc/epg
+server:
+  addrs:
+    - http: '0.0.0.0:40772'
+# No central decode-filter: upstream must supply decoded TS.

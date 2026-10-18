@@ -1,0 +1,6 @@
+.env
+runtime/
+recorded/
+mirakc/config.generated.yml
+epgstation/config/config.yml
+__pycache__/

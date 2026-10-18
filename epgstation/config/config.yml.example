@@ -1,0 +1,44 @@
+# Generated config.yml takes DB credentials from .env via configure.py.
+port: 8888
+mirakurunPath: http://mirakc:40772/
+dbtype: mysql
+mysql:
+  host: mariadb
+  port: 3306
+  user: epgstation
+  password: SET_BY_CONFIGURE
+  database: epgstation
+  charset: utf8mb4
+epgUpdateIntervalTime: 10
+conflictPriority: 1
+recPriority: 2
+needToReplaceEnclosingCharacters: true
+recordedFormat: '%YEAR%%MONTH%%DAY%-%HOUR%%MIN%%SEC%-%TITLE%'
+recordedFileExtension: .ts
+recorded:
+  - name: recorded
+    path: /recorded
+thumbnail: /app/thumbnail
+thumbnailSize: 480x270
+thumbnailPosition: 5
+ffmpeg: /usr/bin/ffmpeg
+ffprobe: /usr/bin/ffprobe
+encodeProcessNum: 1
+concurrentEncodeNum: 1
+streamFilePath: /app/streams
+stream:
+  live:
+    ts:
+      m2ts:
+        - name: 無変換
+      mp4:
+        - name: 720p
+          cmd: '%FFMPEG% -i pipe:0 -sn -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -c:a aac -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      hls:
+        - name: 720p
+          cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -pix_fmt yuv420p -b:v 2500k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+  recorded:
+    ts:
+      mp4:
+        - name: 720p
+          cmd: '%FFMPEG% -i pipe:0 -sn -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -c:a aac -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'

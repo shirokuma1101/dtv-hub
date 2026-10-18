@@ -1,0 +1,29 @@
+name: Validate release source
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install PyYAML==6.0.3
+      - name: Check source syntax and templates
+        run: |
+          python -m py_compile scripts/configure.py scripts/package_release.py
+          node --check epgstation/update-dependencies.cjs
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+          for path in Path('epgstation/dependencies').glob('*.json'):
+              json.loads(path.read_text())
+          for path in ('compose.yaml', 'mirakc/config.yml', 'epgstation/config/config.yml.example'):
+              yaml.safe_load(Path(path).read_text())
+          PY
+          docker compose --env-file .env.example config --quiet
+      - name: Build source release archive
+        run: python scripts/package_release.py
