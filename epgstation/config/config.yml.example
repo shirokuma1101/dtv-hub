@@ -16,8 +16,8 @@ needToReplaceEnclosingCharacters: true
 recordedFormat: '%YEAR%%MONTH%%DAY%-%HOUR%%MIN%%SEC%-%TITLE%'
 recordedFileExtension: .ts
 recorded:
-  - name: recorded
-    path: /recorded
+- name: recorded
+  path: /recorded
 thumbnail: /app/thumbnail
 thumbnailSize: 480x270
 thumbnailPosition: 5
@@ -30,15 +30,63 @@ stream:
   live:
     ts:
       m2ts:
-        - name: 無変換
+      - name: 無変換
       mp4:
-        - name: 720p
-          cmd: '%FFMPEG% -i pipe:0 -sn -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -c:a aac -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 720p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(720*dar/2)*2:720,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 2500k -maxrate 2500k -bufsize 5000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 144p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(144*dar/2)*2:144,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 150k -maxrate 150k -bufsize 300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 48k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 240p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(240*dar/2)*2:240,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 300k -maxrate 300k -bufsize 600k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 64k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 360p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(360*dar/2)*2:360,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 650k -maxrate 650k -bufsize 1300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 96k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 480p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(480*dar/2)*2:480,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 1200k -maxrate 1200k -bufsize 2400k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 1080p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1080*dar/2)*2:1080,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 5000k -maxrate 5000k -bufsize 10000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 1440p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1440*dar/2)*2:1440,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 9000k -maxrate 9000k -bufsize 18000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 2160p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(2160*dar/2)*2:2160,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 18000k -maxrate 18000k -bufsize 36000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 4320p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(4320*dar/2)*2:4320,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 50000k -maxrate 50000k -bufsize 100000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
       hls:
-        - name: 720p
-          cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -pix_fmt yuv420p -b:v 2500k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 720p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(720*dar/2)*2:720,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 2500k -maxrate 2500k -bufsize 5000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 144p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(144*dar/2)*2:144,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 150k -maxrate 150k -bufsize 300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 48k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 240p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(240*dar/2)*2:240,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 300k -maxrate 300k -bufsize 600k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 64k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 360p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(360*dar/2)*2:360,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 650k -maxrate 650k -bufsize 1300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 96k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 480p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(480*dar/2)*2:480,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 1200k -maxrate 1200k -bufsize 2400k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 1080p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1080*dar/2)*2:1080,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 5000k -maxrate 5000k -bufsize 10000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 1440p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1440*dar/2)*2:1440,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 9000k -maxrate 9000k -bufsize 18000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 2160p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(2160*dar/2)*2:2160,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 18000k -maxrate 18000k -bufsize 36000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
+      - name: 4320p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(4320*dar/2)*2:4320,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 50000k -maxrate 50000k -bufsize 100000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -f hls -hls_time 2 -hls_list_size 8 -hls_segment_filename %streamFileDir%/stream%streamNum%-%09d.ts -hls_flags delete_segments %OUTPUT%'
   recorded:
     ts:
       mp4:
-        - name: 720p
-          cmd: '%FFMPEG% -i pipe:0 -sn -c:v libx264 -vf yadif,scale=-2:720 -preset veryfast -c:a aac -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 720p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(720*dar/2)*2:720,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 2500k -maxrate 2500k -bufsize 5000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 144p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(144*dar/2)*2:144,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 150k -maxrate 150k -bufsize 300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 48k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 240p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(240*dar/2)*2:240,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 300k -maxrate 300k -bufsize 600k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 64k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 360p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(360*dar/2)*2:360,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 650k -maxrate 650k -bufsize 1300k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 96k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 480p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(480*dar/2)*2:480,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 1200k -maxrate 1200k -bufsize 2400k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 128k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 1080p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1080*dar/2)*2:1080,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 5000k -maxrate 5000k -bufsize 10000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 1440p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(1440*dar/2)*2:1440,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 9000k -maxrate 9000k -bufsize 18000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 2160p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(2160*dar/2)*2:2160,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 18000k -maxrate 18000k -bufsize 36000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
+      - name: 4320p
+        cmd: '%FFMPEG% -analyzeduration 2000000 -probesize 2000000 -i pipe:0 -map 0:v:0 -map 0:a:0? -sn -dn -threads 2 -c:v libx264 -vf yadif,scale=trunc(4320*dar/2)*2:4320,setsar=1 -preset veryfast -pix_fmt yuv420p -b:v 50000k -maxrate 50000k -bufsize 100000k -g 60 -sc_threshold 0 -c:a aac -ar 48000 -b:a 192k -ac 2 -movflags frag_keyframe+empty_moov+default_base_moof -f mp4 pipe:1'
