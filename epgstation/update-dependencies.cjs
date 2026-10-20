@@ -1,6 +1,16 @@
 // Apply the dependency compatibility changes to the pinned upstream source.
 const fs = require('fs');
 const root = '/app';
+// EPGStation constructs hook environments explicitly. Forward only the webhook
+// setting rather than exposing the entire server environment to child processes.
+const hookFile = root + '/src/model/operator/externalCommand/ExternalCommandManageModel.ts';
+let hookSource = fs.readFileSync(hookFile, 'utf8');
+if (!hookSource.includes("DISCORD_WEBHOOK_URL: process.env['DISCORD_WEBHOOK_URL']")) {
+  const hookPath = "PATH: process.env['PATH'],";
+  if (hookSource.split(hookPath).length - 1 !== 3) throw new Error('Unexpected hook environment integration');
+  hookSource = hookSource.replaceAll(hookPath, hookPath + "\n                    DISCORD_WEBHOOK_URL: process.env['DISCORD_WEBHOOK_URL'] || '',");
+  fs.writeFileSync(hookFile, hookSource);
+}
 const file = root + '/src/model/api/video/VideoApiModel.ts';
 let source = fs.readFileSync(file, 'utf8');
 if (!source.includes("import * as fileType from 'file-type';") && !source.includes("const fileType = require('file-type');")) {

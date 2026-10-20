@@ -14,6 +14,7 @@ FILES = (
     'mirakc/Dockerfile', 'mirakc/config.yml', 'mariadb/my.cnf',
     'epgstation/.dockerignore', 'epgstation/Dockerfile',
     'epgstation/DEPENDENCIES.md', 'epgstation/update-dependencies.cjs',
+    'epgstation/notify.cjs', 'epgstation/notify.test.cjs',
     'epgstation/config/config.yml.example',
     'epgstation/dependencies/package.json',
     'epgstation/dependencies/package-lock.json',
@@ -32,7 +33,7 @@ def main():
     if env.exists():
         for line in env.read_text(encoding='utf-8-sig').splitlines():
             key, _, value = line.partition('=')
-            if key.strip() not in ('MARIADB_PASSWORD', 'MARIADB_ROOT_PASSWORD', 'TS_AUTHKEY'):
+            if key.strip() not in ('MARIADB_PASSWORD', 'MARIADB_ROOT_PASSWORD', 'TS_AUTHKEY', 'DISCORD_WEBHOOK_URL'):
                 continue
             value = value.strip().strip("'\"")
             if value and not value.startswith('replace-'):

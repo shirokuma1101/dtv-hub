@@ -23,5 +23,6 @@ FROM node:22.23.3-bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates ffmpeg && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /app /app
+COPY notify.cjs /app/notify.cjs
 EXPOSE 8888
 CMD ["npm", "start"]

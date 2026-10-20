@@ -21,6 +21,7 @@ EPGStation本体はv2.10.0を維持し、依存関係を `dependencies/` のpack
 - file-typeの `fromFile()` → `fileTypeFromFile()`。Node 22のESMロード対応を利用。
 - openapi-frameworkの廃止済み `safeLoad()` → `load()`。
 - TypeORMが拒否する空条件DELETEを明示的なDELETEクエリへ変更。MySQLのTRUNCATEによるトランザクションの暗黙コミットを避ける。
+- 通知機能用に、外部コマンドの環境変数へ `DISCORD_WEBHOOK_URL` だけを追加する。EPGStation本体は親プロセスの環境変数をそのまま引き継がないため必要。
 
 ## 監査範囲と残存警告
 
