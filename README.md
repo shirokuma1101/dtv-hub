@@ -151,6 +151,37 @@ sudo docker compose up -d --build --no-deps epgstation
 
 開発用テストは `node --test epgstation/notify.test.cjs`。ローカルのモック受信先だけを使用し、実際のDiscordへは送信しません。
 
+### Googleカレンダーへの録画予約同期
+
+予約追加・変更をGoogleカレンダーへ反映し、終了時刻前の予約削除ではイベントを削除します。終了時刻を過ぎた予約のイベントは履歴として残します。これは録画予定の同期で、録画成功の証明ではありません。手動で途中停止して予約が削除された場合も、終了時刻前ならイベントが削除されます。番組名・放送局・予約ID・開始／終了時刻（JST）を登録します。Discord通知と独立して使用できます。
+
+初期設定:
+
+1. Google CloudプロジェクトでGoogle Calendar APIを有効化し、サービスアカウントとJSONキーを作成します。
+2. 自分のGoogleカレンダーに録画用カレンダーを作り、JSONの `client_email` に「予定の変更」権限で共有します。サービスアカウント自身のカレンダーや、ユーザー本人の認証と混同しないでください。
+3. JSONキーをUbuntuの `epgstation/secrets/google-calendar.json` に配置し、`chmod 600 epgstation/secrets/google-calendar.json` を実行します。キーはGit・配布ZIP・Dockerビルド対象から除外され、実行時に読み取り専用でマウントされます。キーの内容をチャットへ貼らないでください。
+4. カレンダーの設定画面「カレンダーの統合」で取得したカレンダーIDを `.env` に設定します（表示名や公開URLではありません）。
+
+```dotenv
+GOOGLE_CALENDAR_ID='カレンダーID'
+GOOGLE_CALENDAR_INSTANCE=dtv-hub
+```
+
+既存環境への反映は、録画していない時間に次を実行します。
+
+```bash
+git pull --ff-only
+sudo python3 scripts/configure.py
+sudo docker compose up -d --build --no-deps epgstation
+```
+
+設定後に発生する予約イベントが対象です。導入前の予約は自動で一括同期しません。同期するには対象予約を更新してください。既知の復元問題がある時刻指定予約は、コンテナ再作成後に作り直してください。
+同じ予約IDは同じイベントへ反映するため重複を抑えます。複数拠点やDB初期化後は `GOOGLE_CALENDAR_INSTANCE` を別名にしてください。運用中に変更すると別イベントになります。
+空欄の `GOOGLE_CALENDAR_ID` で無効化できます。通知先障害で録画を止めませんが、永続的な再送・全件整合機能はなく、API失敗時は変更が欠落する場合があります。EPGStationの外部コマンドログで失敗を確認し、対象予約を更新してください。削除の失敗はカレンダー側で削除してください。
+
+開発用テストは `node --test epgstation/calendar.test.cjs`。署名・重複防止・更新・削除・APIエラーをモックで検証し、Googleへの実送信は行いません。
+認証方式とAPI仕様は [Googleサービスアカウント認証](https://developers.google.com/identity/protocols/oauth2/service-account) と [Calendar Events API](https://developers.google.com/workspace/calendar/api/v3/reference/events/insert) を参照してください。
+
 ### Nginx Proxy Manager 経由のリモート視聴
 
 ローカル試験PCは `192.168.1.44:13000`、NPMは `192.168.1.10` を使用します。

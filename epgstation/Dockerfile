@@ -24,5 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 WORKDIR /app
 COPY --from=build /app /app
 COPY notify.cjs /app/notify.cjs
+COPY calendar.cjs /app/calendar.cjs
 EXPOSE 8888
 CMD ["npm", "start"]

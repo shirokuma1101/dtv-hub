@@ -11,6 +11,12 @@ if (!hookSource.includes("DISCORD_WEBHOOK_URL: process.env['DISCORD_WEBHOOK_URL'
   hookSource = hookSource.replaceAll(hookPath, hookPath + "\n                    DISCORD_WEBHOOK_URL: process.env['DISCORD_WEBHOOK_URL'] || '',");
   fs.writeFileSync(hookFile, hookSource);
 }
+if (!hookSource.includes("GOOGLE_CALENDAR_ID: process.env['GOOGLE_CALENDAR_ID']")) {
+  const marker = "DISCORD_WEBHOOK_URL: process.env['DISCORD_WEBHOOK_URL'] || '',";
+  if (hookSource.split(marker).length - 1 !== 3) throw new Error('Unexpected calendar hook integration');
+  hookSource = hookSource.replaceAll(marker, marker + "\n                    GOOGLE_CALENDAR_ID: process.env['GOOGLE_CALENDAR_ID'] || '',\n                    GOOGLE_CALENDAR_INSTANCE: process.env['GOOGLE_CALENDAR_INSTANCE'] || 'dtv-hub',");
+  fs.writeFileSync(hookFile, hookSource);
+}
 const file = root + '/src/model/api/video/VideoApiModel.ts';
 let source = fs.readFileSync(file, 'utf8');
 if (!source.includes("import * as fileType from 'file-type';") && !source.includes("const fileType = require('file-type');")) {

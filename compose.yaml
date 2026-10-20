@@ -105,6 +105,8 @@ services:
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL:-}
+      GOOGLE_CALENDAR_ID: ${GOOGLE_CALENDAR_ID:-}
+      GOOGLE_CALENDAR_INSTANCE: ${GOOGLE_CALENDAR_INSTANCE:-dtv-hub}
     depends_on:
       mariadb:
         condition: service_healthy
@@ -125,6 +127,7 @@ services:
         bind:
           create_host_path: false
       - thumbnails:/app/thumbnail
+      - ./epgstation/secrets:/app/secrets:ro
       - epgstation-logs:/app/logs
       - streams:/app/streams
     logging: *logging

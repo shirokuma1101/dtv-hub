@@ -4,3 +4,5 @@ recorded/
 mirakc/config.generated.yml
 epgstation/config/config.yml
 __pycache__/
+epgstation/secrets/*
+!epgstation/secrets/.gitkeep

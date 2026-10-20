@@ -15,6 +15,7 @@ FILES = (
     'epgstation/.dockerignore', 'epgstation/Dockerfile',
     'epgstation/DEPENDENCIES.md', 'epgstation/update-dependencies.cjs',
     'epgstation/notify.cjs', 'epgstation/notify.test.cjs',
+    'epgstation/calendar.cjs', 'epgstation/calendar.test.cjs', 'epgstation/secrets/.gitkeep',
     'epgstation/config/config.yml.example',
     'epgstation/dependencies/package.json',
     'epgstation/dependencies/package-lock.json',

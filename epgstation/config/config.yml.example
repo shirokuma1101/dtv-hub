@@ -26,6 +26,9 @@ ffprobe: /usr/bin/ffprobe
 encodeProcessNum: 1
 concurrentEncodeNum: 1
 streamFilePath: /app/streams
+reserveNewAddtionCommand: 'node /app/calendar.cjs add'
+reserveUpdateCommand: 'node /app/calendar.cjs update'
+reservedeletedCommand: 'node /app/calendar.cjs delete'
 recordingStartCommand: 'node /app/notify.cjs start'
 recordingFinishCommand: 'node /app/notify.cjs finish'
 recordingFailedCommand: 'node /app/notify.cjs failed'

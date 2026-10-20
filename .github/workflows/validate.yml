@@ -16,6 +16,7 @@ jobs:
           python -m py_compile scripts/configure.py scripts/package_release.py
           node --check epgstation/update-dependencies.cjs
           node --test epgstation/notify.test.cjs
+          node --test epgstation/calendar.test.cjs
           python - <<'PY'
           import json
           from pathlib import Path
