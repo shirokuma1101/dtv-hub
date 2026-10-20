@@ -156,6 +156,10 @@ sudo docker compose up -d --build --no-deps epgstation
 ローカル試験PCは `192.168.1.44:13000`、NPMは `192.168.1.10` を使用します。
 このPCの `.env` は `EPGSTATION_BIND_ADDRESS=192.168.1.44` に設定しています。localhostへの公開ではないため、直接開く際も `http://192.168.1.44:13000` を使用してください。
 NPMのProxy HostはScheme `http`、Forward Hostname/IP `192.168.1.44`、Forward Port `13000`、Websockets SupportをONに設定します。
+Ubuntuへ移行済みの場合は転送先をUbuntuのLAN IPに読み替えてください。
+HTTPSプロキシ経由では `.env` に `EPGSTATION_CLIENT_SOCKETIO_PORT=443` を設定し、`sudo python3 scripts/configure.py` で再生成してください。外部公開ポートが443以外ならその番号を指定します。生成される `clientSocketioPort` はEPGStationがHTTPS経由で設定APIを返すためにも必要です。ホストの待受ポート `EPGSTATION_PORT=13000` は変更しません。
+生成後、録画していない時間に `sudo docker compose restart epgstation` を実行します。時刻指定予約は既知の復元問題のため再起動後に作り直してください。以後の再生成でも `.env` の指定が維持されます。
+IP直アクセスを主に使う環境ではこの値を空欄にしてください。固定ポート指定はIP直アクセス時のSocket.IOにも適用されるため、プロキシ用の443を設定するとIP直アクセスのリアルタイム更新が接続できない場合があります。
 ドメイン名とTLS証明書は既存NPM環境に合わせて設定してください。外出先端末にはTailscale経由でNPMへ到達する経路と、そのドメインの名前解決が必要です。
 NPMから接続できない場合はWindows Firewallの受信許可を確認し、必要な場合は送信元 `192.168.1.10` のTCP 13000だけを許可してください。
 NPM側の設定と外出先端末での実再生は未確認です。

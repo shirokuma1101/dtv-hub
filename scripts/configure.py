@@ -71,6 +71,11 @@ def render(values, upstream, channels):
     epg = yaml.safe_load((ROOT / 'epgstation/config/config.yml.example').read_text(encoding='utf-8'))
     for field, key in (('user', 'MARIADB_USER'), ('password', 'MARIADB_PASSWORD'), ('database', 'MARIADB_DATABASE')):
         epg['mysql'][field] = values[key]
+    client_port = values.get('EPGSTATION_CLIENT_SOCKETIO_PORT', '').strip()
+    if client_port:
+        if not re.fullmatch(r'[0-9]+', client_port) or not 1 <= int(client_port) <= 65535:
+            raise ValueError('EPGSTATION_CLIENT_SOCKETIO_PORT must be between 1 and 65535')
+        epg['clientSocketioPort'] = int(client_port)
     return base, epg
 
 
