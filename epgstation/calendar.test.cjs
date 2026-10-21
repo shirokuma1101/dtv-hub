@@ -9,6 +9,9 @@ test('stable IDs, separate instances, valid dates, input validation', () => {
   assert.equal(eventId(env), eventId({ ...env, NAME: '変更' }));
   assert.notEqual(eventId(env), eventId({ ...env, GOOGLE_CALENDAR_INSTANCE: 'other' }));
   assert.equal(eventBody(env).start.timeZone, 'Asia/Tokyo');
+  assert.equal(eventBody(env).location, '放送局');
+  assert.equal(eventBody({ ...env, CHANNELNAME: '', CHANNELID: '123' }).location, '123');
+  assert.equal(eventBody({ ...env, CHANNELNAME: '' }).location, '不明');
   assert.throws(() => eventBody({ ...env, ENDAT: env.STARTAT }));
   assert.throws(() => eventId({}));
 });

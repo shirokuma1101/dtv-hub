@@ -18,6 +18,7 @@ function eventBody(env) {
   return {
     id: eventId(env),
     summary: (env.NAME || '録画予約').slice(0, 1000),
+    location: env.CHANNELNAME || env.CHANNELID || '不明',
     description: `EPGStation 録画予約 #${env.RESERVEID}\n放送局: ${env.CHANNELNAME || env.CHANNELID || '不明'}`,
     start: { dateTime: dates[0], timeZone: 'Asia/Tokyo' },
     end: { dateTime: dates[1], timeZone: 'Asia/Tokyo' },
