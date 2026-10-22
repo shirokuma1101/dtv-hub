@@ -26,13 +26,13 @@ ffprobe: /usr/bin/ffprobe
 encodeProcessNum: 1
 concurrentEncodeNum: 1
 streamFilePath: /app/streams
-reserveNewAddtionCommand: 'node /app/calendar.cjs add'
-reserveUpdateCommand: 'node /app/calendar.cjs update'
-reservedeletedCommand: 'node /app/calendar.cjs delete'
-recordingStartCommand: 'node /app/notify.cjs start'
-recordingFinishCommand: 'node /app/notify.cjs finish'
-recordingFailedCommand: 'node /app/notify.cjs failed'
-recordingPrepRecFailedCommand: 'node /app/notify.cjs prep-failed'
+reserveNewAddtionCommand: '/usr/local/bin/node /app/calendar.cjs add'
+reserveUpdateCommand: '/usr/local/bin/node /app/calendar.cjs update'
+reservedeletedCommand: '/usr/local/bin/node /app/calendar.cjs delete'
+recordingStartCommand: '/usr/local/bin/node /app/notify.cjs start'
+recordingFinishCommand: '/usr/local/bin/node /app/notify.cjs finish'
+recordingFailedCommand: '/usr/local/bin/node /app/notify.cjs failed'
+recordingPrepRecFailedCommand: '/usr/local/bin/node /app/notify.cjs prep-failed'
 stream:
   live:
     ts:
