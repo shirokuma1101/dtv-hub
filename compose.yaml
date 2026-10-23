@@ -130,6 +130,7 @@ services:
       - ./epgstation/secrets:/app/secrets:ro
       - epgstation-logs:/app/logs
       - streams:/app/streams
+      - drop-logs:/app/drop
     logging: *logging
 volumes:
   tailscale-state:
@@ -138,3 +139,4 @@ volumes:
   thumbnails:
   epgstation-logs:
   streams:
+  drop-logs:

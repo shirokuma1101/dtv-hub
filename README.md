@@ -133,6 +133,8 @@ HLSは映像と主音声を選択し、`/app/streams` に出力します。録�
 
 ### Discord Webhookによる録画通知
 
+録画時のTS検査は `isEnabledDropCheck: true` で有効にしています。エラー・ドロップ・スクランブル数をDBへ記録し、検査ログは `drop-logs` ボリューム（コンテナ内 `/app/drop`）に保存します。Discord終了通知もこれらの値を使用します。設定反映後に開始した録画が対象で、既存録画の数値は補完しません。数値が0でも全編の映像・音声の正常性を保証するものではありません。バックアップにはこのボリュームも含めてください。
+
 外部コマンドのNodeは `/usr/local/bin/node` の絶対パスで指定します。EPGStationは実行前にファイルの存在を確認するため、`node /app/notify.cjs ...` のようなPATH検索を前提とした指定では `CmdBinIsNotFound` になります。カレンダー用コマンドも同様です。
 
 `.env` に `DISCORD_WEBHOOK_URL='https://discord.com/api/webhooks/…'` を設定すると、録画開始・終了・録画中エラー・録画準備失敗を通知します。空欄なら無効です。URLは認証情報なのでGitへ登録しないでください。

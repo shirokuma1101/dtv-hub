@@ -26,6 +26,8 @@ ffprobe: /usr/bin/ffprobe
 encodeProcessNum: 1
 concurrentEncodeNum: 1
 streamFilePath: /app/streams
+isEnabledDropCheck: true
+dropLog: /app/drop
 reserveNewAddtionCommand: '/usr/local/bin/node /app/calendar.cjs add'
 reserveUpdateCommand: '/usr/local/bin/node /app/calendar.cjs update'
 reservedeletedCommand: '/usr/local/bin/node /app/calendar.cjs delete'
